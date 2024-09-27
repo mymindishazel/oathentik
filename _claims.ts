@@ -15,58 +15,20 @@ export interface OpenIDClaims {
  * claims implicitly requested by the `profile` scope
  */
 export interface ProfileClaims {
-  name?: string;
-  family_name?: string;
-  given_name?: string;
-  middle_name?: string;
-  nickname?: string;
-  preferred_username?: string;
-  profile?: string; // url
-  picture?: string; // url
-  website?: string;
-  gender?: "female" | "male" | string;
-  birthdate?: `${number}` | `${number | "0000"}-${number}-${number}`; // yyyy or yyyy-mm-dd
-  zoneinfo?: `${string}/${string}` | string; // iana timezone
-  locale?: `${Lowercase<string>}${"-" | "_"}${Uppercase<string>}`; // e.g. en-US
-  updated_at?: number; // unix timestamp in seconds
+  name: string;
+  given_name: string;
+  preferred_username: string;
+  nickname: string;
+  groups: string[];
 }
 
 /**
  * claims implicitly requested by the `email` scope
  */
 export interface EmailClaims {
-  email?: `${string}@${string}`;
-  email_verified?: boolean;
+  email: `${string}@${string}`;
+  email_verified: true;
 }
-
-interface Address {
-  formatted: string; // full address
-  street_address: string;
-  locality: string; // city or locality
-  region: string; // state, province, prefecture, or region
-  postal_code: string;
-  country: string;
-}
-
-/**
- * claims implicitly requested by the `address` scope
- */
-export interface AddressClaims {
-  address?: Address;
-}
-
-/**
- * claims implicitly requested by the `phone` scope
- */
-export type PhoneClaims =
-  | {
-    phone_number?: string;
-    phone_number_verified?: false;
-  }
-  | {
-    phone_number: `+${string}` | `+${string};ext=${number}`;
-    phone_number_verified: true;
-  };
 
 type SetClaims<
   A extends ReadonlyArray<string>,
@@ -80,6 +42,4 @@ type SetClaims<
 export type ScopeClaims<A extends ReadonlyArray<string>> =
   & SetClaims<A, "openid", OpenIDClaims>
   & SetClaims<A, "profile", ProfileClaims>
-  & SetClaims<A, "email", EmailClaims>
-  & SetClaims<A, "address", AddressClaims>
-  & SetClaims<A, "phone", PhoneClaims>;
+  & SetClaims<A, "email", EmailClaims>;
