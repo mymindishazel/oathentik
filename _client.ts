@@ -1,4 +1,20 @@
-import { OathError, UserData } from "./_types.ts";
+import { ScopeClaims } from "./_claims.ts";
+
+/**
+ * error encountered while trying to contact authentik
+ *
+ * @example
+ * ```ts
+ * if (err instanceof OathError) {
+ *   console.error("fatal error contacting authentik:", err.message)
+ * }
+ * ```
+ */
+export class OathError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
 
 const is_json = (res: Response) =>
   res.headers.get("content-type") === "application/json";
@@ -89,7 +105,9 @@ export class Oath {
    * @param code the authorization code received once the user gets redirected back to the applications
    * @returns the logged in user's data
    */
-  public async user<T = UserData>(code: string): Promise<T> {
+  public async user<T = ScopeClaims<["openid", "email", "profile"]>>(
+    code: string,
+  ): Promise<T> {
     const res = await this.#post("/application/o/token/", {
       code,
       grant_type: "authorization_code",
