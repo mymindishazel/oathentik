@@ -88,7 +88,10 @@ export class Oath {
    * @returns the URL
    */
   public url(
-    { scopes, state }: { scopes: string[]; state: string },
+    { scopes, state }: {
+      scopes: string[] | readonly string[];
+      state: string;
+    },
   ): string {
     return this.#url("/application/o/authorize/", {
       client_id: this.#client_id,
