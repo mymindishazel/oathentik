@@ -1,5 +1,5 @@
 {
   "name": "@dash/oathentik",
-  "version": "1.0.0-rc5",
+  "version": "1.0.0",
   "exports": "./mod.ts"
 }
