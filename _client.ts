@@ -73,7 +73,7 @@ export class Oath {
    */
   public url(
     { scopes, state }: { scopes: string[]; state: string },
-  ) {
+  ): string {
     return this.#url("/application/o/authorize", {
       client_id: this.#client_id,
       redirect_uri: this.#redirect_uri,
@@ -89,7 +89,7 @@ export class Oath {
    * @param code the authorization code received once the user gets redirected back to the applications
    * @returns the logged in user's data
    */
-  public async user<T = UserData>(code: string) {
+  public async user<T = UserData>(code: string): Promise<T> {
     const res = await this.#post("/application/o/token", {
       code,
       grant_type: "authorization_code",
