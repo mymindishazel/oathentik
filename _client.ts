@@ -74,7 +74,7 @@ export class Oath {
   public url(
     { scopes, state }: { scopes: string[]; state: string },
   ): string {
-    return this.#url("/application/o/authorize", {
+    return this.#url("/application/o/authorize/", {
       client_id: this.#client_id,
       redirect_uri: this.#redirect_uri,
       response_type: "code",
@@ -90,7 +90,7 @@ export class Oath {
    * @returns the logged in user's data
    */
   public async user<T = UserData>(code: string): Promise<T> {
-    const res = await this.#post("/application/o/token", {
+    const res = await this.#post("/application/o/token/", {
       code,
       grant_type: "authorization_code",
       redirect_uri: this.#redirect_uri,
@@ -108,7 +108,7 @@ export class Oath {
   }
 
   private async fetch_user<T>(access_token: string) {
-    const res = await this.#post("/application/o/userinfo", { access_token });
+    const res = await this.#post("/application/o/userinfo/", { access_token });
     if (!is_json(res)) {
       throw new OathError(`invalid user data, got ${await res.text()}`);
     }
