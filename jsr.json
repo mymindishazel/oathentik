@@ -1,5 +1,11 @@
 {
   "name": "@dash/oathentik",
-  "version": "1.0.0",
-  "exports": "./mod.ts"
+  "version": "1.0.1",
+  "exports": "./mod.ts",
+  "publish": {
+    "exclude": [
+      ".github",
+      ".vscode"
+    ]
+  }
 }
